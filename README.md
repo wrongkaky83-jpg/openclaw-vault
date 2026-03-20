@@ -1,38 +1,82 @@
-# OpenClaw Vault - Portable Password Manager for AI Agents
+# OpenClaw Vault
 
-A portable, zero-install password manager that runs directly from a USB drive. Designed for both human users (GUI + hotkeys) and **AI agents via [OpenClaw](https://openclaw.org)** — enabling secure credential access without exposing passwords in plain text.
+**Your AI agent logs in. Your password stays secret.**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS-blue.svg)](#download)
+[![OpenClaw](https://img.shields.io/badge/OpenClaw-Compatible-green.svg)](https://openclaw.org)
+
+The first password manager built for AI agents — encrypted, portable, zero-knowledge. Your AI employee navigates to a login page, fills in credentials via hotkeys, and **never sees the actual password**.
+
+Works with [OpenClaw](https://openclaw.org) skills and any AI agent framework.
+
+---
+
+## How AI Agents Use It
+
+```
+Human: "Log into my Cloudflare account"
+
+AI Agent:                         OpenClaw Vault:
+  │                                    │
+  ├─ vault use cloudflare  ──────────► │ ✓ Found "cloudflare.com"
+  ├─ Opens login page                  │
+  ├─ Clicks username field             │
+  ├─ Presses F9  ─────────────────────►│ ✓ Types username (AI never sees it)
+  ├─ Clicks password field             │
+  ├─ Presses F8  ─────────────────────►│ ✓ Types password (AI never sees it)
+  └─ "Done! You're logged in."         │
+```
+
+**Zero-knowledge design** — the AI agent only knows *which* domain to use, never the credentials themselves. Passwords are typed directly into the browser via OS-level keyboard simulation.
+
+---
 
 ## Why OpenClaw Vault?
 
-AI agents often need to log into websites on your behalf, but storing passwords in AI memory or config files is a security risk. OpenClaw Vault solves this:
+| Problem | Solution |
+|---------|----------|
+| AI agents need login credentials | Vault provides hotkey-based auto-fill — no password exposure |
+| Passwords in AI memory = security risk | AES-256-GCM encryption, passwords never leave the vault |
+| Complex setup & installation | Zero-install — runs directly from a USB drive |
+| Platform lock-in | Cross-platform: Windows + macOS |
+| Forgot to lock? | Auto-locks when USB drive is removed |
 
-- **Encrypted at rest** — AES-256-GCM with PBKDF2 key derivation
-- **Portable** — runs from USB drive, no installation needed
-- **AI-ready** — CLI/IPC interface for OpenClaw skills and other AI frameworks
-- **Auto-lock** — locks automatically when USB is removed
-- **Cross-platform** — Windows & macOS
+---
+
+## OpenClaw Skill Integration
+
+Install the **OpenClaw Vault** skill to give your AI employees secure credential access:
+
+```bash
+# AI agent commands (via CLI/IPC)
+vault status              # Check if vault is running
+vault search cloud        # Fuzzy search → finds "cloudflare.com"
+vault use cloudflare.com  # Set active domain
+vault list                # List all stored domains
+```
+
+Then the AI agent simply presses **F9** (username) and **F8** (password) to fill credentials into any input field — just like a human would.
+
+See [`openclaw-skill.md`](openclaw-skill.md) for the complete skill definition ready to import.
+
+---
 
 ## Features
 
+### For AI Agents
+- **CLI/IPC interface** — interact via simple commands, never handle raw passwords
+- **Fuzzy domain matching** — `vault use github` finds `github.com` automatically
+- **Hotkey auto-fill** — F9/F8 to type credentials into any focused input field
+- **Status checks** — AI can verify vault is running and unlocked before proceeding
+
 ### For Humans
-- Dark-themed GUI (Catppuccin) for managing credentials
-- Global hotkeys: **F9** (username) / **F8** (password) to auto-fill into any input field
-- System tray integration — runs in background
-- Master password protection with re-verification for sensitive operations
+- **Dark-themed GUI** (Catppuccin) for managing credentials
+- **System tray** — runs quietly in background
+- **Master password** with re-verification for sensitive operations
+- **USB portability** — carry your passwords on a USB drive, no cloud sync
 
-### For AI Agents (OpenClaw)
-- **IPC command interface** — AI agents interact via CLI commands, never seeing raw passwords
-- **Fuzzy domain matching** — `vault use cloudflare` finds `cloudflare.com` automatically
-- **Search** — `vault search <query>` to discover stored credentials
-- **Hotkey triggering** — AI agent sets the active domain, then simulates F9/F8 to fill credentials
-
-```
-# AI agent workflow
-vault use github.com        # Set active domain
-vault list                   # List all stored domains
-vault search cloud           # Fuzzy search
-vault status                 # Check vault state
-```
+---
 
 ## Quick Start
 
@@ -54,40 +98,32 @@ Download from [Releases](../../releases) and copy to your USB drive. No installa
 
 ### macOS Permissions
 
-macOS requires **Accessibility** permission for hotkeys and auto-fill:
-- System Settings > Privacy & Security > Accessibility > Add `vault.app`
-- System Settings > Privacy & Security > Input Monitoring > Add `vault.app`
+macOS requires **Accessibility** and **Input Monitoring** permissions:
+- System Settings → Privacy & Security → Accessibility → Add `vault.app`
+- System Settings → Privacy & Security → Input Monitoring → Add `vault.app`
 
-### CLI Mode
+---
 
-```bash
-vault --cli                  # Start in CLI/service mode (no GUI)
-vault add github.com         # Add credentials interactively
-vault use github.com         # Set active domain for hotkeys
-vault list                   # List all domains
-vault search <query>         # Fuzzy search domains
-vault status                 # Show vault status
-vault lock                   # Lock vault
-vault remove github.com      # Remove credentials
-```
+## Security
 
-## OpenClaw Integration
+| Layer | Detail |
+|-------|--------|
+| Encryption | AES-256-GCM + PBKDF2-SHA256 (100,000 iterations) |
+| Network | Zero network access — localhost IPC only |
+| Memory | Credentials cleared on lock |
+| Physical | Auto-locks on USB removal |
+| Access | Master password re-verification before viewing/copying passwords |
 
-OpenClaw Vault is designed to work with [OpenClaw](https://openclaw.org) AI agent skills. Install the **OpenClaw Vault** skill from the marketplace to let your AI employees securely access credentials.
+All data stays on the USB drive. Nothing is written to the host system.
 
-The skill teaches AI agents to:
-1. Check if the vault is running
-2. Set the active domain for the target website
-3. Use hotkeys to fill credentials without ever reading the raw password
-
-See [openclaw-skill.md](openclaw-skill.md) for the full skill definition.
+---
 
 ## Architecture
 
 ```
 vault.exe / vault.app
   ├── GUI (tkinter)        — credential management UI
-  ├── IPC Server (TCP)     — listens on localhost:19840-19860
+  ├── IPC Server (TCP)     — localhost:19840-19860
   ├── Hotkey Listener      — F9/F8 global hotkeys
   │   ├── Windows: pynput
   │   └── macOS: Quartz CGEvent Tap
@@ -95,44 +131,19 @@ vault.exe / vault.app
   └── USB Watchdog         — auto-lock on USB removal
 ```
 
-### Data Files
-
-| File | Purpose |
-|------|---------|
-| `vault.dat` | Encrypted credential database |
-| `vault.lock` | Runtime lock file (PID + port) |
-
-All data stays on the USB drive. Nothing is written to the host system.
-
-## Security
-
-- **Encryption**: AES-256-GCM with PBKDF2-SHA256 (100,000 iterations)
-- **No network**: Zero network access — everything runs locally via localhost IPC
-- **Memory safety**: Credentials are cleared from memory on lock
-- **USB removal detection**: Auto-locks when the drive is disconnected
-- **Password verification**: Re-authentication required before viewing/copying passwords
+---
 
 ## Build from Source
 
-### Requirements
-
-- Python 3.10+ (macOS needs 3.10+ for Tk 8.6 dark mode support)
-- Dependencies: `cryptography`, `pynput`, `pystray`, `Pillow`
-
-### Build
-
 ```bash
+# Requirements: Python 3.10+ (macOS needs 3.10+ for Tk 8.6 dark mode)
 pip install -r requirements.txt
+
+# Build
 python build.py              # GUI mode (default)
 python build.py --console    # Console mode (for debugging)
-```
 
-Output: `dist/vault.exe` (Windows) or `dist/vault.app` (macOS)
-
-### Development
-
-```bash
-pip install -r requirements.txt
+# Development
 python vault.py              # Run GUI directly
 python vault.py --cli        # Run CLI service
 ```
@@ -143,7 +154,8 @@ python vault.py --cli        # Run CLI service
 openclaw-vault/
 ├── vault.py              # Entry point
 ├── build.py              # PyInstaller build script
-├── requirements.txt      # Python dependencies
+├── openclaw-skill.md     # OpenClaw skill definition
+├── requirements.txt
 └── src/
     ├── main.py           # CLI argument routing
     ├── gui.py            # Tkinter GUI (Catppuccin dark theme)
