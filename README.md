@@ -44,6 +44,10 @@ AI Agent:                         OpenClaw Vault:
 
 ## Why OpenClaw Vault?
 
+<p align="center">
+  <img src="assets/plaintext-danger.png" alt="Plaintext passwords in config files" width="400">
+</p>
+
 | Problem | Solution |
 |---------|----------|
 | AI agents need login credentials | Vault provides hotkey-based auto-fill — no password exposure |
@@ -116,6 +120,10 @@ macOS requires **Accessibility** and **Input Monitoring** permissions:
 
 ## Security
 
+<p align="center">
+  <img src="assets/usb-unplug.png" alt="Unplug USB - Zero Trace" width="400">
+</p>
+
 | Layer | Detail |
 |-------|--------|
 | Encryption | AES-256-GCM + PBKDF2-SHA256 (100,000 iterations) |
@@ -129,6 +137,10 @@ All data stays on the USB drive. Nothing is written to the host system.
 ---
 
 ## Architecture
+
+<p align="center">
+  <img src="assets/architecture-diagram.png" alt="OpenClaw Vault Architecture" width="600">
+</p>
 
 ```
 vault.exe / vault.app
