@@ -5,7 +5,7 @@
 - **Name**: OpenClaw Vault Password Manager
 - **Category**: automation
 - **Description**: Securely access stored credentials via USB Vault without exposing passwords in plain text. Supports hotkey auto-fill and CLI commands.
-- **Download**: https://github.com/wrongkaky83-jpg/openclaw-vault/releases
+- **Download**: https://github.com/wrongkaky83-jpg/openclaw-vault
 
 ## Skill Instructions
 
