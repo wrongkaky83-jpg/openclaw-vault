@@ -2,6 +2,10 @@
 
 **Your AI agent logs in. Your password stays secret.**
 
+<p align="center">
+  <img src="assets/openclaw-vault-hero.png" alt="OpenClaw Vault - AI Agent Password Manager" width="600">
+</p>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS-blue.svg)](#download)
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-Compatible-green.svg)](https://openclaw.org)
