@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="assets/openclaw-vault-promo.mp4">
+  <a href="https://www.youtube.com/watch?v=R_XmneJu78g">
     <img src="https://img.shields.io/badge/▶_Watch_Promo-Video-red?style=for-the-badge" alt="Watch Promo Video">
   </a>
 </p>
