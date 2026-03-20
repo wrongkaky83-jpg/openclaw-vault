@@ -6,6 +6,12 @@
   <img src="assets/openclaw-vault-hero.png" alt="OpenClaw Vault - AI Agent Password Manager" width="600">
 </p>
 
+<p align="center">
+  <a href="assets/openclaw-vault-promo.mp4">
+    <img src="https://img.shields.io/badge/▶_Watch_Promo-Video-red?style=for-the-badge" alt="Watch Promo Video">
+  </a>
+</p>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS-blue.svg)](#download)
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-Compatible-green.svg)](https://openclaw.org)
