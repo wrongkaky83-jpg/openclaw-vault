@@ -1,0 +1,26 @@
+# Build artifacts
+dist/
+build/
+*.spec
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Vault runtime data (sensitive!)
+vault.dat
+vault.lock
+config.json
+
+# macOS
+.DS_Store
+__MACOSX/
+
+# IDE
+.vscode/
+.idea/
+
+# Virtual environments
+venv/
+.venv/
